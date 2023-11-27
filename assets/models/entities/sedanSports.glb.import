@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://w6j5s0gw7prv"
-path="res://.godot/imported/dodge.glb-4f251cecd9a4ecfeabb40d08b99ea16e.scn"
+uid="uid://bsohxnx67s14d"
+path="res://.godot/imported/sedanSports.glb-def3bb853d5f2c05b032d59ab2c53401.scn"
 
 [deps]
 
-source_file="res://assets/models/entities/dodge.glb"
-dest_files=["res://.godot/imported/dodge.glb-4f251cecd9a4ecfeabb40d08b99ea16e.scn"]
+source_file="res://assets/models/entities/sedanSports.glb"
+dest_files=["res://.godot/imported/sedanSports.glb-def3bb853d5f2c05b032d59ab2c53401.scn"]
 
 [params]
 
