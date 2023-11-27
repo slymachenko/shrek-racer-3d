@@ -1,0 +1,89 @@
+[gd_scene load_steps=7 format=3 uid="uid://cd307arjmr00r"]
+
+[ext_resource type="Texture2D" uid="uid://buu48ec2fxwg" path="res://assets/imgs/ui/background.png" id="1_us5co"]
+[ext_resource type="Texture2D" uid="uid://clxls3xu1ylvr" path="res://assets/imgs/ui/logo.png" id="2_lcf47"]
+[ext_resource type="Theme" uid="uid://bpjr67vjqlenx" path="res://themes/UI.tres" id="3_6ftey"]
+[ext_resource type="Script" path="res://scripts/ui/title_menu/StartBtn.gd" id="3_flng8"]
+[ext_resource type="Script" path="res://scripts/ui/title_menu/OptionsBtn.gd" id="4_a2s58"]
+[ext_resource type="Script" path="res://scripts/ui/title_menu/ExitBtn.gd" id="5_57ono"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer"]
+layout_mode = 2
+texture = ExtResource("1_us5co")
+expand_mode = 4
+stretch_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="Logo" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_lcf47")
+expand_mode = 5
+
+[node name="Btns" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="StartBtn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/Btns"]
+layout_mode = 2
+theme = ExtResource("3_6ftey")
+text = "Start"
+script = ExtResource("3_flng8")
+
+[node name="OptionsBtn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/Btns"]
+layout_mode = 2
+theme = ExtResource("3_6ftey")
+text = "Options"
+script = ExtResource("4_a2s58")
+
+[node name="ExitBtn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/Btns"]
+layout_mode = 2
+theme = ExtResource("3_6ftey")
+text = "Exit"
+script = ExtResource("5_57ono")
+
+[node name="Version" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_6ftey")
+text = "Version 0.0.1
+Made in Godot"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Btns/StartBtn" to="MarginContainer/HBoxContainer/VBoxContainer/Btns/StartBtn" method="_on_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Btns/OptionsBtn" to="MarginContainer/HBoxContainer/VBoxContainer/Btns/OptionsBtn" method="_on_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Btns/ExitBtn" to="MarginContainer/HBoxContainer/VBoxContainer/Btns/ExitBtn" method="_on_pressed"]

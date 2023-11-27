@@ -1,0 +1,154 @@
+[gd_scene load_steps=6 format=3 uid="uid://2v8t0ud45y6r"]
+
+[ext_resource type="Script" path="res://scripts/ui/MainMenu.gd" id="1_oaf88"]
+[ext_resource type="Texture2D" uid="uid://buu48ec2fxwg" path="res://assets/imgs/ui/background.png" id="2_0hs0m"]
+[ext_resource type="Texture2D" uid="uid://clxls3xu1ylvr" path="res://assets/imgs/ui/logo.png" id="3_8mw5f"]
+[ext_resource type="Theme" uid="uid://bpjr67vjqlenx" path="res://themes/UI.tres" id="4_oegx1"]
+[ext_resource type="PackedScene" uid="uid://djbclhv8eg0q1" path="res://scenes/ui/SettingsPanel.tscn" id="5_of8oa"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_oaf88")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer"]
+layout_mode = 2
+texture = ExtResource("2_0hs0m")
+expand_mode = 4
+stretch_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_oegx1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="Logo" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_8mw5f")
+expand_mode = 5
+
+[node name="MainBtns" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="StartBtn" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MainBtns"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme = ExtResource("4_oegx1")
+text = "Start"
+
+[node name="SettingsBtn" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MainBtns"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme = ExtResource("4_oegx1")
+text = "Settings"
+
+[node name="ExitBtn" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MainBtns"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme = ExtResource("4_oegx1")
+text = "Exit"
+
+[node name="SettingsBtns" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="VideoBtn" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme = ExtResource("4_oegx1")
+text = "Video
+"
+
+[node name="AudioBtn" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme = ExtResource("4_oegx1")
+text = "Audio
+"
+
+[node name="GameplayBtn" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme = ExtResource("4_oegx1")
+text = "Gameplay
+"
+
+[node name="ControlsBtn" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme = ExtResource("4_oegx1")
+text = "Controls"
+
+[node name="LanguageBtn" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme = ExtResource("4_oegx1")
+text = "Language
+"
+
+[node name="BackBtn" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme = ExtResource("4_oegx1")
+text = "Back
+"
+
+[node name="Version" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_oegx1")
+text = "Version 0.0.1
+Made in Godot"
+horizontal_alignment = 1
+
+[node name="SettingsMenu" parent="." instance=ExtResource("5_of8oa")]
+visible = false
+layout_mode = 0
+offset_left = 550.0
+offset_top = 150.0
+offset_right = 1750.0
+offset_bottom = 950.0
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MainBtns/StartBtn" to="." method="_on_start_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MainBtns/SettingsBtn" to="." method="_on_settings_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MainBtns/ExitBtn" to="." method="_on_exit_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns/VideoBtn" to="." method="_on_video_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns/AudioBtn" to="." method="_on_audio_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns/GameplayBtn" to="." method="_on_gameplay_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns/ControlsBtn" to="." method="_on_controls_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns/LanguageBtn" to="." method="_on_language_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns/BackBtn" to="." method="_on_back_btn_pressed"]
