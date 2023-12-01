@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bp6old8vlwwyl"]
+[gd_scene load_steps=10 format=3 uid="uid://bp6old8vlwwyl"]
 
 [ext_resource type="Script" path="res://scripts/world/Level.gd" id="1_1r7al"]
 [ext_resource type="PackedScene" uid="uid://dgwfdqcw4ohii" path="res://scenes/entitites/Player.tscn" id="1_mng3t"]
 [ext_resource type="Texture2D" uid="uid://dkip673olqx7q" path="res://assets/textures/texture_01.png" id="2_3fhql"]
 [ext_resource type="PackedScene" uid="uid://cq3af24ecml0x" path="res://scenes/ui/PauseMenu.tscn" id="3_mqr8c"]
+[ext_resource type="PackedScene" uid="uid://bn5c7t4jkrtmm" path="res://scenes/ui/FPSLabel.tscn" id="5_feunj"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_ib5yn"]
 turbidity = 100.0
@@ -44,6 +45,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.86844, 0)
 use_collision = true
 size = Vector3(500, 1, 500)
 material = SubResource("StandardMaterial3D_kllc0")
+
+[node name="FpsLabel" parent="." instance=ExtResource("5_feunj")]
+visible = false
+offset_right = 36.0
+offset_bottom = 23.0
 
 [node name="PauseMenu" parent="." instance=ExtResource("3_mqr8c")]
 process_mode = 3

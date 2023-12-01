@@ -1,5 +1,7 @@
 extends Node
 
+signal fps_displayed(value)
+
 # Video settings
 func display_mode_set(value):
 	DisplayServer.window_set_mode(3 if value else 0)
@@ -7,10 +9,14 @@ func display_mode_set(value):
 	Save.save_data()
 
 func display_fps_toggle(value):
-	pass
+	emit_signal("fps_displayed", value)
+	Save.game_data.display_fps = value
+	Save.save_data()
 
 func max_fps_set(value):
-	pass
+	Engine.set_max_fps(value if value < 500 else 0)
+	Save.game_data.max_fps = Engine.get_max_fps() if value < 500 else 500
+	Save.save_data()
 
 func brightness_set(value):
 	pass
