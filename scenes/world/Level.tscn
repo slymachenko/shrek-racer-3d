@@ -29,10 +29,12 @@ uv1_triplanar = true
 [node name="World" type="Node3D"]
 script = ExtResource("1_1r7al")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="Env" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
 environment = SubResource("Environment_41p8d")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 light_energy = 3.0
 light_angular_distance = 0.5
@@ -46,11 +48,20 @@ use_collision = true
 size = Vector3(500, 1, 500)
 material = SubResource("StandardMaterial3D_kllc0")
 
-[node name="FpsLabel" parent="." instance=ExtResource("5_feunj")]
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FpsLabel" parent="GUI" instance=ExtResource("5_feunj")]
 visible = false
 offset_right = 36.0
 offset_bottom = 23.0
 
-[node name="PauseMenu" parent="." instance=ExtResource("3_mqr8c")]
+[node name="PauseMenu" parent="GUI" instance=ExtResource("3_mqr8c")]
 process_mode = 3
 visible = false
+layout_mode = 1
