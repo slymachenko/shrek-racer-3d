@@ -1,16 +1,18 @@
-[gd_scene load_steps=10 format=3 uid="uid://bp6old8vlwwyl"]
+[gd_scene load_steps=14 format=3 uid="uid://bp6old8vlwwyl"]
 
 [ext_resource type="Script" path="res://scripts/world/Level.gd" id="1_1r7al"]
 [ext_resource type="PackedScene" uid="uid://dgwfdqcw4ohii" path="res://scenes/entitites/Player.tscn" id="1_mng3t"]
 [ext_resource type="Texture2D" uid="uid://dkip673olqx7q" path="res://assets/textures/texture_01.png" id="2_3fhql"]
+[ext_resource type="Shader" path="res://shaders/Water.gdshader" id="2_4kh5j"]
+[ext_resource type="Texture2D" uid="uid://bj5onompjgjyo" path="res://assets/textures/sky.exr" id="2_x41iu"]
 [ext_resource type="PackedScene" uid="uid://cq3af24ecml0x" path="res://scenes/ui/PauseMenu.tscn" id="3_mqr8c"]
 [ext_resource type="PackedScene" uid="uid://bn5c7t4jkrtmm" path="res://scenes/ui/FPSLabel.tscn" id="5_feunj"]
 
-[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_ib5yn"]
-turbidity = 100.0
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_aebvs"]
+panorama = ExtResource("2_x41iu")
 
 [sub_resource type="Sky" id="Sky_0qmus"]
-sky_material = SubResource("PhysicalSkyMaterial_ib5yn")
+sky_material = SubResource("PanoramaSkyMaterial_aebvs")
 
 [sub_resource type="Environment" id="Environment_41p8d"]
 background_mode = 2
@@ -20,13 +22,33 @@ ssao_enabled = true
 ssil_enabled = true
 sdfgi_enabled = true
 glow_enabled = true
+fog_light_color = Color(1, 0.698039, 0.682353, 1)
 fog_density = 0.001
+fog_sky_affect = 0.75
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m0x1b"]
+render_priority = 0
+shader = ExtResource("2_4kh5j")
+shader_parameter/WATER_COL = Color(0.04, 0.38, 0.88, 1)
+shader_parameter/WATER2_COL = Color(0.04, 0.35, 0.78, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(2500, 2500)
+shader_parameter/height = 10.0
+shader_parameter/wave_size = Vector2(6, 6)
+shader_parameter/wave_speed = 1.5
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8mvo5"]
+material = SubResource("ShaderMaterial_m0x1b")
+size = Vector2(10000, 10000)
+subdivide_width = 64
+subdivide_depth = 64
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kllc0"]
 albedo_texture = ExtResource("2_3fhql")
 uv1_triplanar = true
 
-[node name="World" type="Node3D"]
+[node name="Level" type="Node3D"]
 script = ExtResource("1_1r7al")
 
 [node name="Env" type="Node3D" parent="."]
@@ -40,13 +62,12 @@ light_energy = 3.0
 light_angular_distance = 0.5
 shadow_enabled = true
 
+[node name="Water" type="MeshInstance3D" parent="Env"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+mesh = SubResource("PlaneMesh_8mvo5")
+
 [node name="Player" parent="." instance=ExtResource("1_mng3t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.86844, 0)
-
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-use_collision = true
-size = Vector3(500, 1, 500)
-material = SubResource("StandardMaterial3D_kllc0")
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
@@ -58,6 +79,7 @@ grow_vertical = 2
 
 [node name="FpsLabel" parent="GUI" instance=ExtResource("5_feunj")]
 visible = false
+layout_mode = 0
 offset_right = 36.0
 offset_bottom = 23.0
 
@@ -65,3 +87,10 @@ offset_bottom = 23.0
 process_mode = 3
 visible = false
 layout_mode = 1
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Ground" type="CSGBox3D" parent="World"]
+use_collision = true
+size = Vector3(500, 1, 500)
+material = SubResource("StandardMaterial3D_kllc0")
