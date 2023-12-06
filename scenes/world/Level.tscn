@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bp6old8vlwwyl"]
+[gd_scene load_steps=17 format=3 uid="uid://bp6old8vlwwyl"]
 
 [ext_resource type="Script" path="res://scripts/world/Level.gd" id="1_1r7al"]
 [ext_resource type="PackedScene" uid="uid://dgwfdqcw4ohii" path="res://scenes/entitites/Player.tscn" id="1_mng3t"]
@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://bj5onompjgjyo" path="res://assets/textures/sky.exr" id="2_x41iu"]
 [ext_resource type="PackedScene" uid="uid://cq3af24ecml0x" path="res://scenes/ui/PauseMenu.tscn" id="3_mqr8c"]
 [ext_resource type="PackedScene" uid="uid://bn5c7t4jkrtmm" path="res://scenes/ui/FPSLabel.tscn" id="5_feunj"]
+[ext_resource type="MeshLibrary" uid="uid://dm01eyxhddhbv" path="res://assets/meshlibs/road.meshlib" id="8_ho5nh"]
+[ext_resource type="MeshLibrary" uid="uid://py5qn5g58nvi" path="res://assets/meshlibs/building.meshlib" id="9_7gr2i"]
+[ext_resource type="MeshLibrary" uid="uid://nhyp77gkcux7" path="res://assets/meshlibs/props.meshlib" id="10_jmgyg"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_aebvs"]
 panorama = ExtResource("2_x41iu")
@@ -66,9 +69,6 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
 mesh = SubResource("PlaneMesh_8mvo5")
 
-[node name="Player" parent="." instance=ExtResource("1_mng3t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.86844, 0)
-
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -94,3 +94,33 @@ layout_mode = 1
 use_collision = true
 size = Vector3(500, 1, 500)
 material = SubResource("StandardMaterial3D_kllc0")
+
+[node name="RoadGridMap" type="GridMap" parent="World"]
+mesh_library = ExtResource("8_ho5nh")
+cell_size = Vector3(6, 0.3, 6)
+cell_scale = 12.0
+data = {
+"cells": PackedInt32Array(65536, 2, 1048625, 65536, 4, 1048625, 65536, 6, 1048625, 65536, 8, 1048625, 65536, 10, 1048625, 65536, 12, 1048625, 65536, 14, 1048625, 65536, 16, 1048625, 65536, 18, 1048625, 65536, 20, 1048612, 720896, 22, 1048612, 1376256, 24, 1048612)
+}
+metadata/_editor_floor_ = Vector3(0, 1, 0)
+
+[node name="BuildingGridMap" type="GridMap" parent="World"]
+mesh_library = ExtResource("9_7gr2i")
+cell_size = Vector3(1, 1, 1)
+cell_scale = 15.0
+data = {
+"cells": PackedInt32Array(24, 30, 1441797, 65516, 25, 1048579, 65519, 43, 1048629, 24, 57, 1441843, 23, 78, 1441841, 25, 97, 1441820, 65519, 60, 1048603, 22, 113, 1441821, 65519, 75, 1048608, 24, 131, 1441817, 65518, 91, 1048606, 65517, 111, 1048599)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="PropsGridMap" type="GridMap" parent="World"]
+mesh_library = ExtResource("10_jmgyg")
+cell_size = Vector3(1, 0.3, 1)
+cell_scale = 15.0
+data = {
+"cells": PackedInt32Array(131066, 12, 1048584, 131066, 37, 1048584, 131066, 57, 1048584, 131066, 72, 1048584, 131066, 87, 1048584, 131066, 103, 1048584, 65547, 103, 1441800, 65547, 87, 1441800, 65547, 72, 1441800, 65547, 57, 1441800, 65547, 37, 1441800, 65547, 12, 1441800)
+}
+metadata/_editor_floor_ = Vector3(0, 1, 0)
+
+[node name="Player" parent="." instance=ExtResource("1_mng3t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.86844, 0)
