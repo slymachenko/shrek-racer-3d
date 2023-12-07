@@ -344,7 +344,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_o6mgm")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rpge0"]
-size = Vector3(3.98719, 2.73325, 7.38069)
+size = Vector3(3.98719, 2.41741, 7.38069)
 
 [node name="dodge" type="VehicleBody3D"]
 gravity_scale = 4.0
@@ -419,7 +419,7 @@ mesh = SubResource("ArrayMesh_jo6uo")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0121313, 0.155983, -0.0908463)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0121313, 0.313905, -0.0908463)
 shape = SubResource("BoxShape3D_rpge0")
 
 [node name="CenterOfMass" type="Node3D" parent="."]
