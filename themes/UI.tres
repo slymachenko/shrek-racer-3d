@@ -5,6 +5,11 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jnm4f"]
 bg_color = Color(1, 1, 1, 0)
+border_width_left = 2
+border_width_top = 5
+border_width_right = 2
+border_width_bottom = 5
+border_blend = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dd6ls"]
 content_margin_left = 100.0

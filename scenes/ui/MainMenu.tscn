@@ -68,18 +68,30 @@ size_flags_vertical = 6
 [node name="StartBtn" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MainBtns"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+focus_neighbor_top = NodePath("../ExitBtn")
+focus_neighbor_bottom = NodePath("../SettingsBtn")
+focus_next = NodePath("../SettingsBtn")
+focus_previous = NodePath("../ExitBtn")
 theme = ExtResource("4_oegx1")
 text = "Start"
 
 [node name="SettingsBtn" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MainBtns"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+focus_neighbor_top = NodePath("../StartBtn")
+focus_neighbor_bottom = NodePath("../ExitBtn")
+focus_next = NodePath("../ExitBtn")
+focus_previous = NodePath("../StartBtn")
 theme = ExtResource("4_oegx1")
 text = "Settings"
 
 [node name="ExitBtn" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MainBtns"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+focus_neighbor_top = NodePath("../SettingsBtn")
+focus_neighbor_bottom = NodePath("../StartBtn")
+focus_next = NodePath("../StartBtn")
+focus_previous = NodePath("../SettingsBtn")
 theme = ExtResource("4_oegx1")
 text = "Exit"
 

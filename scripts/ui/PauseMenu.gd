@@ -3,6 +3,8 @@ extends Control
 @onready var main_btns = $MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MainBtns
 @onready var settings_btns = $MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns
 @onready var pause_menu = $"."
+@onready var continue_btn = $MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MainBtns/ContinueBtn
+@onready var video_btn = $MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/SettingsBtns/VideoBtn
 
 # Main Menu
 func _on_continue_btn_pressed():
@@ -13,6 +15,7 @@ func _on_continue_btn_pressed():
 func _on_settings_btn_pressed():
 	settings_btns.visible = !settings_btns.visible
 	main_btns.visible = !main_btns.visible
+	video_btn.grab_focus()
 
 func _on_main_menu_btn_pressed():
 	get_tree().paused = false
@@ -46,6 +49,7 @@ func _on_back_btn_pressed():
 	$SettingsMenu.visible = false
 	settings_btns.visible = !settings_btns.visible
 	main_btns.visible = !main_btns.visible
+	continue_btn.grab_focus()
 
 # Esc button
 func _input(event):
@@ -53,3 +57,6 @@ func _input(event):
 		pause_menu.visible = !pause_menu.visible
 		get_tree().paused = !get_tree().paused
 		Input.set_mouse_mode(2 if Input.mouse_mode == 0 else 0)
+		
+		if pause_menu.visible:
+			continue_btn.grab_focus()
