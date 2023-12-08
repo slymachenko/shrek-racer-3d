@@ -1,0 +1,149 @@
+[gd_scene load_steps=17 format=3 uid="uid://bp6old8vlwwyl"]
+
+[ext_resource type="Script" path="res://scripts/world/Level.gd" id="1_1r7al"]
+[ext_resource type="PackedScene" uid="uid://dgwfdqcw4ohii" path="res://scenes/entitites/Player.tscn" id="1_mng3t"]
+[ext_resource type="Texture2D" uid="uid://dkip673olqx7q" path="res://assets/textures/texture_01.png" id="2_3fhql"]
+[ext_resource type="Shader" path="res://shaders/Water.gdshader" id="2_4kh5j"]
+[ext_resource type="Texture2D" uid="uid://bj5onompjgjyo" path="res://assets/textures/sky.exr" id="2_x41iu"]
+[ext_resource type="PackedScene" uid="uid://cq3af24ecml0x" path="res://scenes/ui/PauseMenu.tscn" id="3_mqr8c"]
+[ext_resource type="PackedScene" uid="uid://bn5c7t4jkrtmm" path="res://scenes/ui/FPSLabel.tscn" id="5_feunj"]
+[ext_resource type="MeshLibrary" uid="uid://dm01eyxhddhbv" path="res://assets/meshlibs/road.meshlib" id="8_ho5nh"]
+[ext_resource type="MeshLibrary" uid="uid://py5qn5g58nvi" path="res://assets/meshlibs/building.meshlib" id="9_7gr2i"]
+[ext_resource type="MeshLibrary" uid="uid://nhyp77gkcux7" path="res://assets/meshlibs/props.meshlib" id="10_jmgyg"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_aebvs"]
+panorama = ExtResource("2_x41iu")
+
+[sub_resource type="Sky" id="Sky_0qmus"]
+sky_material = SubResource("PanoramaSkyMaterial_aebvs")
+
+[sub_resource type="Environment" id="Environment_41p8d"]
+background_mode = 2
+sky = SubResource("Sky_0qmus")
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+sdfgi_enabled = true
+glow_enabled = true
+fog_light_color = Color(1, 0.698039, 0.682353, 1)
+fog_density = 0.001
+fog_sky_affect = 0.75
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m0x1b"]
+render_priority = 0
+shader = ExtResource("2_4kh5j")
+shader_parameter/WATER_COL = Color(0.04, 0.38, 0.88, 1)
+shader_parameter/WATER2_COL = Color(0.04, 0.35, 0.78, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(2500, 2500)
+shader_parameter/height = 10.0
+shader_parameter/wave_size = Vector2(6, 6)
+shader_parameter/wave_speed = 1.5
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8mvo5"]
+material = SubResource("ShaderMaterial_m0x1b")
+size = Vector2(5000, 5000)
+subdivide_width = 64
+subdivide_depth = 64
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kllc0"]
+albedo_texture = ExtResource("2_3fhql")
+uv1_triplanar = true
+
+[node name="Level" type="Node3D"]
+script = ExtResource("1_1r7al")
+
+[node name="Env" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
+environment = SubResource("Environment_41p8d")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+light_energy = 3.0
+light_angular_distance = 0.5
+shadow_enabled = true
+
+[node name="Water" type="MeshInstance3D" parent="Env"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+mesh = SubResource("PlaneMesh_8mvo5")
+
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FpsLabel" parent="GUI" instance=ExtResource("5_feunj")]
+visible = false
+layout_mode = 0
+offset_right = 36.0
+offset_bottom = 23.0
+
+[node name="PauseMenu" parent="GUI" instance=ExtResource("3_mqr8c")]
+process_mode = 3
+visible = false
+layout_mode = 1
+
+[node name="Info" type="Control" parent="GUI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="engine_force" type="Label" parent="GUI/Info"]
+layout_mode = 0
+offset_top = 340.0
+offset_right = 108.0
+offset_bottom = 363.0
+text = "engine_force: "
+
+[node name="max_steer" type="Label" parent="GUI/Info"]
+layout_mode = 0
+offset_top = 363.0
+offset_right = 89.0
+offset_bottom = 386.0
+text = "max_steer: "
+
+[node name="brake" type="Label" parent="GUI/Info"]
+layout_mode = 0
+offset_top = 386.0
+offset_right = 49.0
+offset_bottom = 409.0
+text = "brake:"
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Ground" type="CSGBox3D" parent="World"]
+use_collision = true
+size = Vector3(500, 1, 500)
+material = SubResource("StandardMaterial3D_kllc0")
+
+[node name="RoadGridMap" type="GridMap" parent="World"]
+mesh_library = ExtResource("8_ho5nh")
+cell_size = Vector3(12, 0.3, 12)
+cell_scale = 24.0
+data = {
+"cells": PackedInt32Array(65536, 65522, 1441841, 65536, 65520, 1441841, 65536, 65517, 655387, 65538, 65517, 49, 65554, 65518, 655371, 131070, 65517, 655409, 131068, 65517, 655409, 131066, 65517, 655409, 131064, 65517, 655409, 131063, 65517, 655409, 131059, 65517, 655409, 131057, 65517, 655409, 131053, 65518, 1441803, 65540, 65517, 49, 65542, 65517, 49, 65544, 65517, 49, 65546, 65517, 49, 65548, 65517, 49, 131056, 65517, 655409, 65536, 65519, 1048625, 131061, 65517, 655387, 131061, 65519, 1048625, 131061, 65521, 1048625, 131061, 65523, 1048625, 131052, 65521, 1048625, 131052, 65523, 1048625, 65536, 65528, 1048604, 65536, 65524, 1441798, 65540, 65528, 655366, 131068, 65528, 655366, 65536, 65532, 1048582, 65555, 65521, 1048582, 65551, 65517, 6, 65549, 65517, 49, 131061, 65525, 1441841, 131061, 65526, 1048625, 131052, 65525, 1048625, 131052, 65526, 1048625, 131061, 65528, 10, 131059, 65528, 655409, 131057, 65528, 655409, 131055, 65528, 655409, 131054, 65528, 655409, 65546, 65529, 655373, 65554, 65527, 1048589, 65555, 65523, 1048625, 65555, 65524, 1048625, 65551, 65528, 49, 65549, 65528, 49, 65543, 65528, 49, 65542, 65528, 49, 65555, 65530, 1441841, 65547, 65532, 1441841, 131066, 65528, 655409, 131064, 65528, 655409, 131063, 65528, 655409, 131052, 65530, 1048625, 131052, 65528, 1441819, 131052, 65532, 1441841, 131061, 65530, 1441841, 131061, 65532, 1441841, 65555, 65533, 1048614, 2686994, 1, 1048587, 65547, 2, 1441797, 2686980, 2, 655409, 2686989, 2, 655409, 2686985, 2, 655409, 2686983, 2, 655409, 2686982, 2, 655409, 65547, 65534, 1048625, 65547, 0, 1048625, 65536, 65534, 1048625, 65536, 0, 1048625, 131061, 65534, 1048625, 131061, 0, 1048625, 131052, 65534, 1048625, 131052, 0, 1048625, 2686978, 3, 45, 65541, 4, 41, 65544, 4, 49, 65545, 4, 49, 65547, 4, 27, 65554, 5, 655371, 65536, 3, 1048581, 131061, 3, 1048581, 131053, 4, 1441805, 131057, 3, 655401, 2752500, 3, 655409, 2752503, 3, 655409, 2752504, 3, 655409, 2752505, 3, 655409, 2752510, 3, 655409, 65536, 1, 1048625, 131061, 1, 1048625, 131052, 1, 1048625, 65551, 4, 655365, 65549, 4, 49, 2686991, 2, 655386, 2686991, 6, 1048625, 2686991, 8, 1048625, 65551, 13, 1441833, 65551, 10, 655365, 65554, 9, 1048587, 65549, 10, 49, 65548, 10, 49, 65546, 10, 49, 65544, 10, 49, 131061, 4, 1441841, 131070, 9, 1048587, 65538, 9, 11, 65536, 6, 1441837, 65536, 4, 1441841, 65543, 10, 655409, 65541, 10, 655366, 131065, 10, 655366, 131061, 10, 1048604, 131061, 6, 1048582, 131061, 14, 1441798, 131061, 16, 1048625, 131057, 10, 49, 131056, 10, 49, 131053, 11, 1441805, 131052, 7, 1441841, 131052, 8, 1441841, 131052, 14, 1441841, 131053, 18, 11, 131052, 15, 1441841, 131056, 19, 655409, 131058, 19, 655409, 131059, 19, 655409, 131063, 19, 655409, 131061, 17, 1048625, 131065, 19, 49, 131067, 19, 49, 131069, 19, 49, 131071, 19, 49, 65537, 19, 49, 65539, 19, 49, 65541, 19, 49, 65543, 19, 49, 65545, 19, 49, 65550, 17, 1048587, 65547, 18, 655405, 131067, 10, 655409, 65544, 17, 41, 5373947, 13, 1048625, 5373947, 11, 1048625, 2752507, 6, 1048617, 2752509, 3, 49, 2752507, 3, 655386, 5373947, 9, 1048625, 131061, 19, 27, 2686980, 17, 41, 5373948, 16, 11, 5373951, 17, 49, 5308417, 17, 49)
+}
+metadata/_editor_floor_ = Vector3(0, 61, 0)
+
+[node name="BuildingGridMap" type="GridMap" parent="World"]
+mesh_library = ExtResource("9_7gr2i")
+cell_size = Vector3(1, 1, 1)
+cell_scale = 15.0
+data = {
+"cells": PackedInt32Array(65434, 65406, 1441819, 65434, 65418, 1441820, 65437, 65373, 1441816, 65437, 65391, 1441817, 65449, 65415, 21, 65467, 65415, 25, 65482, 65418, 28, 65494, 65418, 29, 65506, 65418, 27, 65514, 65403, 1048602, 65517, 65379, 1048581, 65434, 65358, 1441819, 65517, 65358, 1048603, 65437, 65343, 1441795, 65455, 65343, 655381, 65470, 65341, 655388, 65514, 65343, 655384, 65499, 65341, 655388, 65485, 65343, 655386, 65457, 65367, 1441814, 65458, 65387, 655363, 65476, 65365, 1441813, 65477, 65388, 4, 65496, 65367, 1441815, 65497, 65391, 1441814, 65348, 65346, 655366, 65375, 65343, 655360, 65381, 65361, 1048598, 65384, 65382, 1048607, 65385, 65400, 1048605, 65345, 65367, 1441817, 65328, 65385, 655382, 65325, 65400, 1441821, 65334, 65415, 0, 65382, 65415, 1048602, 65358, 65415, 0, 65365, 65396, 22, 65346, 65395, 1441815, 65364, 65378, 1441818, 193, 65343, 655360, 199, 65367, 1048576, 193, 65415, 0, 169, 65415, 0, 169, 65343, 655360, 145, 65343, 0, 145, 65415, 0, 121, 65415, 655360, 121, 65343, 655360, 115, 65391, 1048576, 85, 65412, 6, 58, 65418, 5, 85, 65343, 655364, 61, 65340, 655365, 37, 65343, 655363, 37, 65361, 1441816, 37, 65418, 1441794, 40, 65403, 1441816, 139, 65391, 1048588, 176, 65367, 1048588, 43, 212, 29, 31, 212, 30, 19, 213, 32, 7, 213, 28, 65532, 213, 27, 65520, 213, 29, 65508, 213, 30, 65496, 213, 32, 65380, 211, 49, 65352, 210, 45, 65330, 204, 1441835, 65327, 179, 1441836, 65337, 155, 655402, 65367, 148, 655403, 65386, 163, 1048623, 65386, 187, 1048621, 65327, 98, 1441841, 65328, 72, 1441842, 65344, 102, 47, 65365, 103, 39, 65384, 86, 1048617, 65436, 211, 49, 65459, 212, 45, 65478, 212, 48, 65433, 188, 1441827, 65433, 163, 1441836, 65451, 147, 655401, 65475, 150, 655402, 65502, 148, 655406, 65524, 144, 655411, 65349, 66, 655412, 65370, 67, 655413, 65451, 103, 51, 65432, 86, 1441841, 65476, 103, 52, 65501, 97, 1048626, 65511, 69, 1048614, 65512, 16, 1048582, 65487, 19, 3, 65463, 22, 5, 65439, 19, 3, 65458, 64, 655363, 7, 147, 655407, 27, 147, 655408, 51, 148, 655404, 82, 147, 655400, 121, 141, 655396, 146, 141, 655393, 161, 150, 655398, 213, 147, 655404, 240, 133, 1441838, 209, 88, 1441795, 160, 241, 655406, 180, 237, 655412, 199, 236, 655408, 217, 235, 655406, 231, 216, 1441836, 223, 183, 1441825, 231, 167, 1441826, 160, 181, 34, 161, 103, 44, 140, 101, 34, 117, 104, 46, 92, 104, 45, 71, 103, 47, 53, 105, 53, 41, 86, 1441842, 160, 74, 655409, 159, 74, 655409, 136, 79, 655410, 112, 77, 655409, 94, 78, 655407, 74, 76, 655412, 138, 187, 52, 162, 65535, 1441792, 162, 65511, 1441792, 162, 65487, 1441795, 168, 65472, 655365, 192, 65475, 655364, 207, 65472, 655361, 205, 65497, 1441798, 208, 65531, 1441795, 65326, 16, 1441795, 65326, 65535, 1441796, 65323, 65520, 1441793, 65326, 65499, 1441792, 65332, 65476, 655360, 65353, 65473, 655390, 65371, 65473, 655391, 65389, 65473, 1048608, 65389, 65491, 1048607, 65389, 65509, 1048606, 65386, 65524, 1048579, 65386, 6, 1048580, 65350, 16, 0, 65371, 10, 29, 65367, 65491, 1441798, 65361, 65525, 1441817, 65348, 65508, 1441813, 65515, 65520, 1048597, 65518, 65505, 1048604, 65518, 65493, 1048603, 65439, 1, 1441817, 65436, 65522, 1441820, 65435, 65510, 1441821, 65434, 65498, 1441824, 65434, 65480, 1441823, 65445, 65474, 655389, 65457, 65474, 655390, 65478, 65474, 655365, 65502, 65477, 655363, 65517, 65481, 1048577, 65483, 65490, 1048601, 65451, 65492, 26, 65490, 65534, 23, 65464, 3, 21, 65452, 65516, 22, 65483, 65515, 24, 42, 65468, 655387, 54, 65467, 655388, 66, 65467, 655390, 78, 65467, 655389, 96, 65467, 655391, 114, 65479, 1048608, 114, 65500, 1048581, 110, 1, 1048582, 82, 5, 655365, 31, 65483, 1441796, 31, 65500, 1441795, 34, 65521, 1441798, 26, 14, 1441793)
+}
+metadata/_editor_floor_ = Vector3(4, 0, 0)
+
+[node name="PropsGridMap" type="GridMap" parent="World"]
+mesh_library = ExtResource("10_jmgyg")
+cell_size = Vector3(1, 0.3, 1)
+cell_scale = 15.0
+metadata/_editor_floor_ = Vector3(0, 2, 0)
+
+[node name="Player" parent="." instance=ExtResource("1_mng3t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -238, 2, -185)

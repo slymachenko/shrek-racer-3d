@@ -5,6 +5,9 @@ extends Node3D
 
 @onready var engine_force = $GUI/Info/engine_force
 @onready var max_steer = $GUI/Info/max_steer
+@onready var steer = $GUI/Info/steer
+@onready var brake = $GUI/Info/brake
+@onready var speed = $GUI/Info/speed
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,3 +17,6 @@ func _ready():
 func _process(delta):
 	engine_force.text = "engine_force: %s" % [player.engine_force]
 	max_steer.text = "max_steer: %s" % [player.max_steer]
+	steer.text = "steer: %s" % [player.steering]
+	brake.text = "brake: %s" % [player.brake]
+	speed.text = "speed: %s" % [snapped(player.linear_velocity.length(), 0.001)]

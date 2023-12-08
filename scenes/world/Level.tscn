@@ -95,16 +95,38 @@ offset_bottom = 40.0
 
 [node name="engine_force" type="Label" parent="GUI/Info"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_top = 340.0
+offset_right = 108.0
+offset_bottom = 363.0
 text = "engine_force: "
 
 [node name="max_steer" type="Label" parent="GUI/Info"]
 layout_mode = 0
-offset_top = 23.0
+offset_top = 363.0
 offset_right = 89.0
-offset_bottom = 46.0
+offset_bottom = 386.0
 text = "max_steer: "
+
+[node name="steer" type="Label" parent="GUI/Info"]
+layout_mode = 0
+offset_top = 386.0
+offset_right = 44.0
+offset_bottom = 409.0
+text = "steer:"
+
+[node name="brake" type="Label" parent="GUI/Info"]
+layout_mode = 0
+offset_top = 410.0
+offset_right = 49.0
+offset_bottom = 433.0
+text = "brake:"
+
+[node name="speed" type="Label" parent="GUI/Info"]
+layout_mode = 0
+offset_top = 433.0
+offset_right = 51.0
+offset_bottom = 456.0
+text = "speed:"
 
 [node name="World" type="Node3D" parent="."]
 
@@ -138,4 +160,4 @@ cell_scale = 15.0
 metadata/_editor_floor_ = Vector3(0, 2, 0)
 
 [node name="Player" parent="." instance=ExtResource("1_mng3t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -238, 3, -185)
