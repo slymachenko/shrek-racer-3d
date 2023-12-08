@@ -88,6 +88,24 @@ process_mode = 3
 visible = false
 layout_mode = 1
 
+[node name="Info" type="Control" parent="GUI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="engine_force" type="Label" parent="GUI/Info"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "engine_force: "
+
+[node name="max_steer" type="Label" parent="GUI/Info"]
+layout_mode = 0
+offset_top = 23.0
+offset_right = 89.0
+offset_bottom = 46.0
+text = "max_steer: "
+
 [node name="World" type="Node3D" parent="."]
 
 [node name="Ground" type="CSGBox3D" parent="World"]
