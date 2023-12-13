@@ -1,0 +1,172 @@
+[gd_scene load_steps=18 format=3 uid="uid://dva1c6irsjjmp"]
+
+[ext_resource type="Script" path="res://scripts/world/TEST.gd" id="1_dgqmc"]
+[ext_resource type="Texture2D" uid="uid://bj5onompjgjyo" path="res://assets/textures/sky.exr" id="2_a1lfb"]
+[ext_resource type="Shader" path="res://shaders/Water.gdshader" id="3_nasts"]
+[ext_resource type="PackedScene" uid="uid://bn5c7t4jkrtmm" path="res://scenes/ui/FPSLabel.tscn" id="4_j8f5n"]
+[ext_resource type="PackedScene" uid="uid://cq3af24ecml0x" path="res://scenes/ui/PauseMenu.tscn" id="5_610wy"]
+[ext_resource type="Texture2D" uid="uid://dkip673olqx7q" path="res://assets/textures/texture_01.png" id="6_il64j"]
+[ext_resource type="MeshLibrary" uid="uid://bi388beaygbwx" path="res://meshlibs/road.meshlib" id="7_1nmoi"]
+[ext_resource type="MeshLibrary" uid="uid://d3phrhq483tj7" path="res://meshlibs/road_barriers.meshlib" id="7_1u14c"]
+[ext_resource type="MeshLibrary" uid="uid://ecmh8cwjqhfo" path="res://meshlibs/props.meshlib" id="9_lymtr"]
+[ext_resource type="MeshLibrary" uid="uid://cxv1a4fxhtagt" path="res://meshlibs/building.meshlib" id="9_uycf4"]
+[ext_resource type="PackedScene" uid="uid://dgwfdqcw4ohii" path="res://scenes/entitites/Player.tscn" id="10_dytd8"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_aebvs"]
+panorama = ExtResource("2_a1lfb")
+
+[sub_resource type="Sky" id="Sky_0qmus"]
+sky_material = SubResource("PanoramaSkyMaterial_aebvs")
+
+[sub_resource type="Environment" id="Environment_41p8d"]
+background_mode = 2
+sky = SubResource("Sky_0qmus")
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+sdfgi_enabled = true
+glow_enabled = true
+fog_light_color = Color(1, 0.698039, 0.682353, 1)
+fog_density = 0.001
+fog_sky_affect = 0.75
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m0x1b"]
+render_priority = 0
+shader = ExtResource("3_nasts")
+shader_parameter/WATER_COL = Color(0.04, 0.38, 0.88, 1)
+shader_parameter/WATER2_COL = Color(0.04, 0.35, 0.78, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(2500, 2500)
+shader_parameter/height = 10.0
+shader_parameter/wave_size = Vector2(6, 6)
+shader_parameter/wave_speed = 1.5
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8mvo5"]
+material = SubResource("ShaderMaterial_m0x1b")
+size = Vector2(5000, 5000)
+subdivide_width = 64
+subdivide_depth = 64
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kllc0"]
+albedo_texture = ExtResource("6_il64j")
+uv1_triplanar = true
+
+[node name="Level" type="Node3D"]
+script = ExtResource("1_dgqmc")
+
+[node name="Env" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
+environment = SubResource("Environment_41p8d")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+light_energy = 3.0
+light_angular_distance = 0.5
+shadow_enabled = true
+
+[node name="Water" type="MeshInstance3D" parent="Env"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+mesh = SubResource("PlaneMesh_8mvo5")
+
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FpsLabel" parent="GUI" instance=ExtResource("4_j8f5n")]
+visible = false
+layout_mode = 0
+offset_right = 36.0
+offset_bottom = 23.0
+
+[node name="PauseMenu" parent="GUI" instance=ExtResource("5_610wy")]
+process_mode = 3
+visible = false
+layout_mode = 1
+
+[node name="Info" type="Control" parent="GUI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="engine_force" type="Label" parent="GUI/Info"]
+layout_mode = 0
+offset_top = 340.0
+offset_right = 108.0
+offset_bottom = 363.0
+text = "engine_force: "
+
+[node name="max_steer" type="Label" parent="GUI/Info"]
+layout_mode = 0
+offset_top = 363.0
+offset_right = 89.0
+offset_bottom = 386.0
+text = "max_steer: "
+
+[node name="steer" type="Label" parent="GUI/Info"]
+layout_mode = 0
+offset_top = 386.0
+offset_right = 44.0
+offset_bottom = 409.0
+text = "steer:"
+
+[node name="brake" type="Label" parent="GUI/Info"]
+layout_mode = 0
+offset_top = 410.0
+offset_right = 49.0
+offset_bottom = 433.0
+text = "brake:"
+
+[node name="speed" type="Label" parent="GUI/Info"]
+layout_mode = 0
+offset_top = 433.0
+offset_right = 51.0
+offset_bottom = 456.0
+text = "speed:"
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Ground" type="CSGBox3D" parent="World"]
+use_collision = true
+size = Vector3(500, 1, 500)
+material = SubResource("StandardMaterial3D_kllc0")
+
+[node name="RoadGridMap" type="GridMap" parent="World"]
+mesh_library = ExtResource("7_1nmoi")
+cell_size = Vector3(0.5, 1, 0.5)
+cell_scale = 9.0
+data = {
+"cells": PackedInt32Array(2, 11, 1441822, 2, 29, 1441822, 2, 47, 1441822, 2, 65, 1441822, 2, 65529, 1441822, 2, 83, 1441822, 2, 101, 1441822, 2, 119, 1441822, 2, 137, 1441822, 2, 155, 1441822, 2, 173, 1441822, 2, 191, 1441822, 2, 209, 1441822, 2, 227, 1441822, 2, 245, 1441822, 2, 263, 1441822, 2, 281, 1441822, 2, 299, 1441822, 2, 317, 1441822, 2, 335, 1441822, 2, 353, 1441822, 2, 371, 1441822, 2, 389, 1441822, 2, 407, 1441822, 2, 425, 1441822, 2, 443, 1441822, 11, 470, 8, 47, 470, 1048584, 56, 443, 1048606, 56, 425, 1048606, 56, 407, 1048606, 65, 380, 1441800, 101, 362, 1048584, 101, 326, 655368, 65, 308, 8, 65, 272, 1441800, 101, 254, 1048584, 110, 227, 1048606, 110, 209, 1048606, 110, 191, 1048606, 110, 164, 1441817, 110, 137, 655363, 110, 119, 655363, 110, 101, 655363, 110, 83, 655363, 110, 66, 655363, 110, 48, 655363, 110, 21, 1048601, 11, 65502, 1441800, 38, 65493, 655390, 56, 65493, 655390, 110, 65530, 1048606, 73, 65493, 30, 101, 65502, 655368, 110, 65528, 1048606, 74, 65493, 30)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="RoadBarriersGridMap" type="GridMap" parent="World"]
+mesh_library = ExtResource("7_1u14c")
+cell_size = Vector3(0.5, 1, 0.5)
+cell_scale = 9.0
+data = {
+"cells": PackedInt32Array(101, 65502, 655363, 11, 65502, 1441795, 11, 470, 3, 47, 470, 1048579, 65, 380, 1441795, 100, 362, 1048579, 100, 326, 655363, 64, 308, 3, 64, 272, 1441795, 100, 254, 1048579)
+}
+
+[node name="BuildingGridMap" type="GridMap" parent="World"]
+mesh_library = ExtResource("9_uycf4")
+cell_size = Vector3(0.5, 1, 0.5)
+cell_scale = 9.0
+data = {
+"cells": PackedInt32Array(65519, 29, 1048616, 65518, 65533, 1048611, 65520, 59, 1048619, 65519, 88, 1048620, 65518, 114, 1048621, 65518, 143, 1048622, 65518, 168, 1048623, 65518, 193, 1048622, 65518, 218, 1048624, 65519, 244, 1048625, 65517, 272, 1048626, 65517, 296, 1048629, 65517, 316, 1048628, 65517, 340, 1048627, 65525, 376, 1048609, 65517, 391, 1048610, 65526, 430, 1048612, 25, 1, 1048576, 25, 30, 1048576, 25, 59, 1048576, 25, 88, 1048576, 25, 117, 1048576, 25, 146, 1048576, 25, 175, 1048576, 25, 204, 1048576, 25, 233, 1048576, 25, 262, 1048576, 25, 291, 1048576, 25, 320, 1048576, 25, 349, 1048576, 25, 378, 1048576, 25, 407, 1048576, 25, 436, 1048576)
+}
+metadata/_editor_floor_ = Vector3(4, -1, 0)
+
+[node name="PropsGridMap" type="GridMap" parent="World"]
+mesh_library = ExtResource("9_lymtr")
+cell_size = Vector3(0.5, 1, 0.5)
+cell_scale = 9.0
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="Player" parent="." instance=ExtResource("10_dytd8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
