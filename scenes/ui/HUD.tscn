@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://oc7lkrp2r36c"]
+
+[ext_resource type="Theme" uid="uid://bpjr67vjqlenx" path="res://themes/UI.tres" id="1_xl6p3"]
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Interaction" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Interaction"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Interaction/CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 300
+
+[node name="Panel" type="Panel" parent="Interaction/CenterContainer/MarginContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="InteractionLabel" type="Label" parent="Interaction/CenterContainer/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("1_xl6p3")
+text = "Press F"
+horizontal_alignment = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bp6old8vlwwyl"]
+[gd_scene load_steps=24 format=3 uid="uid://bp6old8vlwwyl"]
 
 [ext_resource type="Script" path="res://scripts/world/Level.gd" id="1_1r7al"]
 [ext_resource type="PackedScene" uid="uid://dgwfdqcw4ohii" path="res://scenes/entitites/Player.tscn" id="1_mng3t"]
@@ -7,9 +7,13 @@
 [ext_resource type="Texture2D" uid="uid://bj5onompjgjyo" path="res://assets/textures/sky.exr" id="2_x41iu"]
 [ext_resource type="PackedScene" uid="uid://cq3af24ecml0x" path="res://scenes/ui/PauseMenu.tscn" id="3_mqr8c"]
 [ext_resource type="PackedScene" uid="uid://bn5c7t4jkrtmm" path="res://scenes/ui/FPSLabel.tscn" id="5_feunj"]
+[ext_resource type="PackedScene" uid="uid://oc7lkrp2r36c" path="res://scenes/ui/HUD.tscn" id="6_bclfc"]
+[ext_resource type="Theme" uid="uid://bpjr67vjqlenx" path="res://themes/UI.tres" id="6_ld3lo"]
 [ext_resource type="MeshLibrary" uid="uid://dm01eyxhddhbv" path="res://assets/meshlibs/road.meshlib" id="8_ho5nh"]
 [ext_resource type="MeshLibrary" uid="uid://py5qn5g58nvi" path="res://assets/meshlibs/building.meshlib" id="9_7gr2i"]
 [ext_resource type="MeshLibrary" uid="uid://nhyp77gkcux7" path="res://assets/meshlibs/props.meshlib" id="10_jmgyg"]
+[ext_resource type="Shader" path="res://shaders/GradientFade.gdshader" id="11_ju44n"]
+[ext_resource type="Script" path="res://scripts/world/RaceInteractable.gd" id="12_awwgp"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_aebvs"]
 panorama = ExtResource("2_x41iu")
@@ -51,6 +55,22 @@ subdivide_depth = 64
 albedo_texture = ExtResource("2_3fhql")
 uv1_triplanar = true
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c11re"]
+render_priority = 0
+shader = ExtResource("11_ju44n")
+shader_parameter/base_color = Color(0.952941, 0.976471, 0.392157, 1)
+shader_parameter/aabb = Vector3(1, 2, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rovfp"]
+material = SubResource("ShaderMaterial_c11re")
+top_radius = 10.0
+bottom_radius = 10.0
+height = 5.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_rxmjo"]
+height = 5.0
+radius = 8.0
+
 [node name="Level" type="Node3D"]
 script = ExtResource("1_1r7al")
 
@@ -77,16 +97,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Hud" parent="GUI" instance=ExtResource("6_bclfc")]
+visible = false
+layout_mode = 1
+
 [node name="FpsLabel" parent="GUI" instance=ExtResource("5_feunj")]
 visible = false
 layout_mode = 0
 offset_right = 36.0
 offset_bottom = 23.0
-
-[node name="PauseMenu" parent="GUI" instance=ExtResource("3_mqr8c")]
-process_mode = 3
-visible = false
-layout_mode = 1
 
 [node name="Info" type="Control" parent="GUI"]
 anchors_preset = 0
@@ -98,35 +117,46 @@ layout_mode = 0
 offset_top = 340.0
 offset_right = 108.0
 offset_bottom = 363.0
+theme = ExtResource("6_ld3lo")
 text = "engine_force: "
 
 [node name="max_steer" type="Label" parent="GUI/Info"]
 layout_mode = 0
-offset_top = 363.0
-offset_right = 89.0
-offset_bottom = 386.0
+offset_top = 392.0
+offset_right = 133.0
+offset_bottom = 444.0
+theme = ExtResource("6_ld3lo")
 text = "max_steer: "
 
 [node name="steer" type="Label" parent="GUI/Info"]
 layout_mode = 0
-offset_top = 386.0
-offset_right = 44.0
-offset_bottom = 409.0
+offset_top = 435.0
+offset_right = 80.0
+offset_bottom = 487.0
+theme = ExtResource("6_ld3lo")
 text = "steer:"
 
 [node name="brake" type="Label" parent="GUI/Info"]
 layout_mode = 0
-offset_top = 410.0
-offset_right = 49.0
-offset_bottom = 433.0
+offset_top = 487.0
+offset_right = 82.0
+offset_bottom = 539.0
+theme = ExtResource("6_ld3lo")
 text = "brake:"
 
 [node name="speed" type="Label" parent="GUI/Info"]
 layout_mode = 0
-offset_top = 433.0
-offset_right = 51.0
-offset_bottom = 456.0
+offset_top = 539.0
+offset_right = 84.0
+offset_bottom = 591.0
+theme = ExtResource("6_ld3lo")
 text = "speed:"
+
+[node name="PauseMenu" parent="GUI" instance=ExtResource("3_mqr8c")]
+process_mode = 3
+visible = false
+top_level = true
+layout_mode = 1
 
 [node name="World" type="Node3D" parent="."]
 
@@ -161,3 +191,22 @@ metadata/_editor_floor_ = Vector3(0, 2, 0)
 
 [node name="Player" parent="." instance=ExtResource("1_mng3t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -238, 3, -185)
+
+[node name="Interactables" type="Node3D" parent="."]
+
+[node name="RaceInteractable" type="Node3D" parent="Interactables"]
+script = ExtResource("12_awwgp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactables/RaceInteractable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -234, 3.07817, -165)
+mesh = SubResource("CylinderMesh_rovfp")
+skeleton = NodePath("../..")
+
+[node name="Area3D" type="Area3D" parent="Interactables/RaceInteractable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -234, 3.07817, -165)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactables/RaceInteractable/Area3D"]
+shape = SubResource("CylinderShape3D_rxmjo")
+
+[connection signal="body_entered" from="Interactables/RaceInteractable/Area3D" to="Interactables/RaceInteractable" method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Interactables/RaceInteractable/Area3D" to="Interactables/RaceInteractable" method="_on_area_3d_body_exited"]

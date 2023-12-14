@@ -1,7 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bn5c7t4jkrtmm"]
+[gd_scene load_steps=3 format=3 uid="uid://bn5c7t4jkrtmm"]
 
 [ext_resource type="Script" path="res://scripts/ui/FPSLabel.gd" id="1_i77uh"]
+[ext_resource type="Theme" uid="uid://bpjr67vjqlenx" path="res://themes/UI.tres" id="1_tjbxg"]
 
 [node name="FpsLabel" type="Label"]
+theme = ExtResource("1_tjbxg")
 text = "FPS: "
 script = ExtResource("1_i77uh")
