@@ -2,6 +2,7 @@ extends Node3D
 
 @onready var pause_menu = $PauseMenu
 @onready var player = $Player
+@onready var race_interactable = $Interactables/RaceInteractable
 
 @onready var engine_force = $GUI/Info/engine_force
 @onready var max_steer = $GUI/Info/max_steer
@@ -11,6 +12,7 @@ extends Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	race_interactable.race_start.connect(_on_race_start)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -20,3 +22,9 @@ func _process(delta):
 	steer.text = "steer: %s" % [player.steering]
 	brake.text = "brake: %s" % [player.brake]
 	speed.text = "speed: %s" % [snapped(player.linear_velocity.length(), 0.001)]
+
+func _on_race_start():
+	print("RACE_STARTED")
+	# HIDE INTERACTABLES
+	
+	# 
